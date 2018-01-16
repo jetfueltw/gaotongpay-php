@@ -33,35 +33,39 @@ class DigitalPayment extends Payment
      * @param string $notifyUrl
      * @return array
      */
-    public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl)
+    public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl, $returnUrl = null)
     {
-        // $payload = $this->signPayload([
-        //     'outOrderId'      => $tradeNo,
-        //     'amount'          => $this->convertYuanToFen($amount),
-        //     'noticeUrl'       => $notifyUrl,
-        //     'isSupportCredit' => self::CREDIT_SUPPORT,
-        // ]);
+        $payload = $this->signPayload([
+            'banktype'    => $channel,
+            'paymoney'    => $amount,
+            'ordernumber' => $tradeNo,
+            'callbackurl' => $notifyUrl,
+        ]);
+
+        return $this->parseResponse($this->httpClient->get('PayBank.aspx', $payload));
 
         // $payload['payChannel'] = $channel;
         // $payload['ip'] = $clientIp;
         // $payload['model'] = self::MODEL;
 
-        $data = array();
-        //$order_number = date('YmdHis');         #订单号
-        $data['partner'] = 10080;      #商户号
-        $data['banktype'] = 'WEIXIN';           #选择微信
-        $data['paymoney'] = '100.00';                #金额 单位元
-        $data['ordernumber'] = '1234567892';   #订单号
-        $data['callbackurl'] = 'http://www.yahoo.com/';
-        $sign = $this->signPayload($data);
-        var_dump($sign);
-        $data['hrefbackurl'] = 'http://www.yahoo.com/';
-        $data['attach'] = 'jrapi';              #备注信息   不参与签名
-        
-        $data['sign'] =$sign; 
+        //$data = [];
+        ////$order_number = date('YmdHis');         #订单号
+        //$data['partner'] = 10080;      #商户号
+        //$data['banktype'] = 'WEIXIN';           #选择微信
+        //$data['paymoney'] = '100.00';                #金额 单位元
+        //$data['ordernumber'] = '1234567892';   #订单号
+        //$data['callbackurl'] = 'http://www.yahoo.com/';
+        //$sign = $this->signPayload($data);
+        //var_dump($sign);
+        //$data['hrefbackurl'] = 'http://www.yahoo.com/';
+        //$data['attach'] = 'jrapi';              #备注信息   不参与签名
+        //
+        //$data['sign'] = $sign;
         // $pay_url = 'https://wgtj.gaotongpay.com/PayBank.aspx' . '?' .http_build_query($data);
         // var_dump($pay_url);
-        //header("location:" . $pay_url);   
-        return $this->parseResponse($this->httpClient->get('?' .http_build_query($data)));
+        //header("location:" . $pay_url);
+
+        //return $this->parseResponse($this->httpClient->get('?'.http_build_query($data)));
+
     }
 }

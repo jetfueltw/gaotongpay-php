@@ -13,8 +13,8 @@ class Signature
      */
     public static function generate(array $payload, $secretKey)
     {
-        $baseString = self::buildBaseString($payload) .$secretKey;
-        var_dump($baseString);
+        $baseString = self::buildBaseString($payload).$secretKey;
+
         return self::md5Hash($baseString);
     }
 
@@ -31,14 +31,9 @@ class Signature
 
     private static function buildBaseString(array $payload)
     {
-        //ksort($payload);
+        $baseString = "partner={$payload['partner']}&banktype={$payload['banktype']}&paymoney={$payload['paymoney']}&ordernumber={$payload['ordernumber']}&callbackurl={$payload['callbackurl']}";
 
-        $baseString = '';
-        foreach ($payload as $key => $value) {
-            $baseString .= $key.'='.$value.'&';
-        }
-
-        return rtrim($baseString, '&');
+        return $baseString;
     }
 
     private static function md5Hash($data)

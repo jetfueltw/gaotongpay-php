@@ -13,14 +13,14 @@ use PHPUnit\Framework\TestCase;
 
 class UnitTest extends TestCase
 {
-    private $partner;
+    private $merchantId;
     private $secretKey;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->partner = getenv('PARTNER');
+        $this->merchantId = getenv('MERCHANT_ID');
         $this->secretKey = getenv('SECRET_KEY');
     }
 
@@ -28,16 +28,18 @@ class UnitTest extends TestCase
     {
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
-        $channel = 'ICBC';
-        $amount = 1;
+        $channel = Channel::WECHAT;
+        $amount = 50;
         $clientIp = $faker->ipv4;
         $notifyUrl = $faker->url;
+        $returnUrl = $faker->url;
 
-        $payment = new DigitalPayment($this->partner, $this->secretKey);
-        $result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl);
-        //var_dump($result);
+        $payment = new DigitalPayment($this->merchantId, $this->secretKey);
+        $result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl, $returnUrl);
 
-        $this->assertEquals('00', $result['code']);
+        var_dump($result);
+
+        //$this->assertEquals('00', $result['code']);
         //$this->assertEquals('商户没通过审核', $result);
 
         return $tradeNo;

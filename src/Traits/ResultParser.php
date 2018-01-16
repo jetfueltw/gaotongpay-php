@@ -13,7 +13,8 @@ trait ResultParser
     public function parseResponse($response)
     {
         //return json_decode($response, true);
-        var_dump($response);
+        //var_dump($response);
+
         return $response;
     }
 }

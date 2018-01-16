@@ -4,12 +4,11 @@ namespace Jetfuel\Gaotongpay;
 
 use Jetfuel\Gaotongpay\HttpClient\GuzzleHttpClient;
 use Jetfuel\Gaotongpay\HttpClient\CurlHttpClient;
-use Jetfuel\Gaotongpay\Traits\ConvertMoney;
 
 class Payment
 {
-    use ConvertMoney;
-    const BASE_API_URL = 'https://wgtj.gaotongpay.com/PayBank.aspx';
+    const BASE_API_URL = 'https://wgtj.gaotongpay.com/';
+
     /**
      * @var string
      */
@@ -43,7 +42,7 @@ class Payment
         $this->secretKey = $secretKey;
         $this->baseApiUrl = $baseApiUrl === null ? self::BASE_API_URL : $baseApiUrl;
 
-        $this->httpClient = new CurlHttpClient($this->baseApiUrl);
+        $this->httpClient = new GuzzleHttpClient($this->baseApiUrl);
     }
 
     /**
@@ -54,11 +53,9 @@ class Payment
      */
     protected function signPayload(array $payload)
     {
-        // $payload['merchantCode'] = $this->merchantId;
-        // $payload['sign'] = Signature::generate($payload, $this->secretKey);
-        $sign = Signature::generate($payload, '4abc80f7596b15f43f1224389b64912d');
-        //return $payload;
-        return $sign;
-    }
+        $payload['partner'] = $this->merchantId;
+        $payload['sign'] = Signature::generate($payload, $this->secretKey);
 
+        return $payload;
+    }
 }
