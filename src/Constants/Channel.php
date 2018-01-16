@@ -30,7 +30,7 @@ class Channel
     const JDPAY = 'JDPAY';
 
     /**
-     * 银联扫码
+     * 銀聯
      */
     const UNIONPAY = 'UNIONPAY';
 }
