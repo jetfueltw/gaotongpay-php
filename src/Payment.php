@@ -58,4 +58,20 @@ class Payment
 
         return $payload;
     }
+
+    /**
+     * SignQuery request payload.
+     *
+     * @param array $payload
+     * @return array
+     */
+    protected function signQueryPayload(array $payload)
+    {
+        $payload['p1_mchtid'] = $this->merchantId;
+        $payload['p2_signtype'] = '1';
+        $payload['p4_version'] = 'v2.8';
+        $payload['sign'] = Signature::generateQuery($payload, $this->secretKey);
+
+        return $payload;
+    }
 }

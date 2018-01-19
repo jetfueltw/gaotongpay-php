@@ -28,7 +28,7 @@ class UnitTest extends TestCase
     {
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
-        $channel = Channel::WECHAT;
+         $channel = Channel::QQ;
         $amount = 50;
         $clientIp = $faker->ipv4;
         $notifyUrl = $faker->url;
@@ -38,10 +38,7 @@ class UnitTest extends TestCase
         $result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl, $returnUrl);
 
         var_dump($result);
-
-        //$this->assertEquals('00', $result['code']);
-        //$this->assertEquals('商户没通过审核', $result);
-
+        $this->assertContains('getqrcode', $result, '', true);
         return $tradeNo;
     }
 
@@ -50,26 +47,26 @@ class UnitTest extends TestCase
      *
      * @param $tradeNo
      */
-    // public function testDigitalPaymentOrderFind($tradeNo)
-    // {
-    //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
-    //     $result = $tradeQuery->find($tradeNo);
-
-    //     $this->assertEquals('00', $result['code']);
-    // }
+    public function testDigitalPaymentOrderFind($tradeNo)
+    {
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $result = $tradeQuery->find($tradeNo);
+        var_dump($result);
+        $this->assertEquals('1', $result['rspCode']);
+    }
 
     /**
      * @depends testDigitalPaymentOrder
      *
      * @param $tradeNo
      */
-    // public function testDigitalPaymentOrderIsPaid($tradeNo)
-    // {
-    //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
-    //     $result = $tradeQuery->isPaid($tradeNo);
+    public function testDigitalPaymentOrderIsPaid($tradeNo)
+    {
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $result = $tradeQuery->isPaid($tradeNo);
 
-    //     $this->assertFalse($result);
-    // }
+        $this->assertFalse($result);
+    }
 
     // public function testBankPaymentOrder()
     // {
@@ -88,11 +85,6 @@ class UnitTest extends TestCase
     //     return $tradeNo;
     // }
 
-    /**
-     * @depends testBankPaymentOrder
-     *
-     * @param $tradeNo
-     */
     // public function testBankPaymentOrderFind($tradeNo)
     // {
     //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
@@ -101,11 +93,6 @@ class UnitTest extends TestCase
     //     $this->assertEquals('00', $result['code']);
     // }
 
-    /**
-     * @depends testBankPaymentOrder
-     *
-     * @param $tradeNo
-     */
     // public function testBankPaymentOrderIsPaid($tradeNo)
     // {
     //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
@@ -114,77 +101,74 @@ class UnitTest extends TestCase
     //     $this->assertFalse($result);
     // }
 
-    // public function testTradeQueryFindOrderNotExist()
-    // {
-    //     $faker = Factory::create();
-    //     $tradeNo = $faker->uuid;
+    public function testTradeQueryFindOrderNotExist()
+    {
+        $faker = Factory::create();
+        $tradeNo = $faker->uuid;
 
-    //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
-    //     $result = $tradeQuery->find($tradeNo);
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $result = $tradeQuery->find($tradeNo);
 
-    //     $this->assertNull($result);
-    // }
+        $this->assertNull($result);
+    }
 
-    // public function testTradeQueryIsPaidOrderNotExist()
-    // {
-    //     $faker = Factory::create();
-    //     $tradeNo = $faker->uuid;
+    public function testTradeQueryIsPaidOrderNotExist()
+    {
+        $faker = Factory::create();
+        $tradeNo = $faker->uuid;
 
-    //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
-    //     $result = $tradeQuery->isPaid($tradeNo);
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $result = $tradeQuery->isPaid($tradeNo);
 
-    //     $this->assertFalse($result);
-    // }
+        $this->assertFalse($result);
+    }
 
-    // public function testNotifyWebhookVerifyNotifyPayload()
-    // {
-    //     $mock = $this->getMockForTrait(NotifyWebhook::class);
+    public function testNotifyWebhookVerifyNotifyPayload()
+    {
+        $mock = $this->getMockForTrait(NotifyWebhook::class);
 
-    //     $payload = [
-    //         'merchantCode' => '1000000267',
-    //         'instructCode' => '150211000000000018',
-    //         'transType'    => '00200',
-    //         'outOrderId'   => '80904482661769148113436093416980',
-    //         'transTime'    => '20150211155604',
-    //         'totalAmount'  => '1',
-    //         'ext'          => 'ext',
-    //         'sign'         => '69C0A709C58C7E7BFA5CF5B7F8D690C0',
-    //     ];
+        $payload = [
+            'partner'         => '10080',
+            'ordernumber'     => '150211000000000018',
+            'orderstatus'     => '1',
+            'paymoney'        => '50',
+            'sysnumber'       => 'aa123456789',
+            'attach'          => 'abc',
+            'sign'            => 'a3fc7ee52cd803a35296647d6440f10f',
+        ];
 
-    //     $this->assertTrue($mock->verifyNotifyPayload($payload, '123456ABDDFF'));
-    // }
+        $this->assertTrue($mock->verifyNotifyPayload($payload, $this->secretKey));
+    }
 
-    // public function testNotifyWebhookParseNotifyPayload()
-    // {
-    //     $mock = $this->getMockForTrait(NotifyWebhook::class);
+    public function testNotifyWebhookParseNotifyPayload()
+    {
+        $mock = $this->getMockForTrait(NotifyWebhook::class);
 
-    //     $payload = [
-    //         'merchantCode' => '1000000267',
-    //         'instructCode' => '150211000000000018',
-    //         'transType'    => '00200',
-    //         'outOrderId'   => '80904482661769148113436093416980',
-    //         'transTime'    => '20150211155604',
-    //         'totalAmount'  => '1',
-    //         'ext'          => 'ext',
-    //         'sign'         => '69C0A709C58C7E7BFA5CF5B7F8D690C0',
-    //     ];
+        $payload = [
+            'partner'         => '10080',
+            'ordernumber'     => '150211000000000018',
+            'orderstatus'     => '1',
+            'paymoney'        => '50',
+            'sysnumber'       => 'aa123456789',
+            'attach'          => 'abc',
+            'sign'            => 'a3fc7ee52cd803a35296647d6440f10f',
+        ];
 
-    //     $this->assertEquals([
-    //         'merchantCode' => '1000000267',
-    //         'instructCode' => '150211000000000018',
-    //         'transType'    => '00200',
-    //         'outOrderId'   => '80904482661769148113436093416980',
-    //         'transTime'    => '20150211155604',
-    //         'totalAmount'  => 0.01,
-    //         'ext'          => 'ext',
-    //         'sign'         => '69C0A709C58C7E7BFA5CF5B7F8D690C0',
-    //     ], $mock->parseNotifyPayload($payload, '123456ABDDFF'));
-    // }
+        $this->assertEquals([
+            'partner'         => '10080',
+            'ordernumber'     => '150211000000000018',
+            'orderstatus'     => '1',
+            'paymoney'        => '50',
+            'sysnumber'       => 'aa123456789',
+            'attach'          => 'abc',
+            'sign'            => 'a3fc7ee52cd803a35296647d6440f10f',
+        ], $mock->parseNotifyPayload($payload, $this->secretKey));
+    }
 
-    // public function testNotifyWebhookSuccessNotifyResponse()
-    // {
-    //     $mock = $this->getMockForTrait(NotifyWebhook::class);
+    public function testNotifyWebhookSuccessNotifyResponse()
+    {
+        $mock = $this->getMockForTrait(NotifyWebhook::class);
 
-    //     $this->assertEquals('{"code":"00"}', $mock->successNotifyResponse());
-    // }
+        $this->assertEquals('ok', $mock->successNotifyResponse());
+    }
 }

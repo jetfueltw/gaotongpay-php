@@ -1,6 +1,7 @@
 <?php
 
 namespace Jetfuel\Gaotongpay\Traits;
+use Sunra\PhpSimple\HtmlDomParser;
 
 trait ResultParser
 {
@@ -12,9 +13,19 @@ trait ResultParser
      */
     public function parseResponse($response)
     {
-        //return json_decode($response, true);
-        //var_dump($response);
+        $html = HtmlDomParser::str_get_html($response);
 
-        return $response;
+        $imgSrc = $html->find('img', 0);
+        if (isset($imgSrc)) 
+        {
+            return ltrim($imgSrc->src,'/');
+        }
+
+        return null;
+    }
+
+    public function parseQueryResponse($response)
+    {
+        return json_decode($response, true);
     }
 }
