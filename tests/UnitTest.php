@@ -28,17 +28,16 @@ class UnitTest extends TestCase
     {
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
-         $channel = Channel::QQ;
+        $channel = Channel::WECHAT;
         $amount = 50;
         $clientIp = $faker->ipv4;
         $notifyUrl = $faker->url;
-        $returnUrl = $faker->url;
 
         $payment = new DigitalPayment($this->merchantId, $this->secretKey);
-        $result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl, $returnUrl);
+        $result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl);
 
         var_dump($result);
-        $this->assertContains('getqrcode', $result, '', true);
+        $this->assertContains('getqrcode', $result['qrcodeImgUrl'], '', true);
         return $tradeNo;
     }
 
@@ -49,7 +48,7 @@ class UnitTest extends TestCase
      */
     public function testDigitalPaymentOrderFind($tradeNo)
     {
-        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
         $result = $tradeQuery->find($tradeNo);
         var_dump($result);
         $this->assertEquals('1', $result['rspCode']);
@@ -62,51 +61,18 @@ class UnitTest extends TestCase
      */
     public function testDigitalPaymentOrderIsPaid($tradeNo)
     {
-        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
         $result = $tradeQuery->isPaid($tradeNo);
 
         $this->assertFalse($result);
     }
-
-    // public function testBankPaymentOrder()
-    // {
-    //     $faker = Factory::create();
-    //     $tradeNo = $faker->uuid;
-    //     $bank = Bank::CCB;
-    //     $amount = 1;
-    //     $returnUrl = $faker->url;
-    //     $notifyUrl = $faker->url;
-
-    //     $payment = new BankPayment($this->merchantId, $this->secretKey);
-    //     $result = $payment->order($tradeNo, $bank, $amount, $returnUrl, $notifyUrl);
-
-    //     $this->assertContains('<form', $result, '', true);
-
-    //     return $tradeNo;
-    // }
-
-    // public function testBankPaymentOrderFind($tradeNo)
-    // {
-    //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
-    //     $result = $tradeQuery->find($tradeNo);
-
-    //     $this->assertEquals('00', $result['code']);
-    // }
-
-    // public function testBankPaymentOrderIsPaid($tradeNo)
-    // {
-    //     $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
-    //     $result = $tradeQuery->isPaid($tradeNo);
-
-    //     $this->assertFalse($result);
-    // }
 
     public function testTradeQueryFindOrderNotExist()
     {
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
 
-        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
         $result = $tradeQuery->find($tradeNo);
 
         $this->assertNull($result);
@@ -117,7 +83,7 @@ class UnitTest extends TestCase
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
 
-        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey, 'https://cx.gaotongpay.com/zfapi/order/singlequery');
+        $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
         $result = $tradeQuery->isPaid($tradeNo);
 
         $this->assertFalse($result);

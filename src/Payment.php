@@ -3,11 +3,10 @@
 namespace Jetfuel\Gaotongpay;
 
 use Jetfuel\Gaotongpay\HttpClient\GuzzleHttpClient;
-use Jetfuel\Gaotongpay\HttpClient\CurlHttpClient;
 
 class Payment
 {
-    const BASE_API_URL = 'https://wgtj.gaotongpay.com/';
+    
 
     /**
      * @var string
@@ -40,7 +39,6 @@ class Payment
     {
         $this->merchantId = $merchantId;
         $this->secretKey = $secretKey;
-        $this->baseApiUrl = $baseApiUrl === null ? self::BASE_API_URL : $baseApiUrl;
 
         $this->httpClient = new GuzzleHttpClient($this->baseApiUrl);
     }

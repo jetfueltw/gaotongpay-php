@@ -8,6 +8,8 @@ class DigitalPayment extends Payment
 {
     use ResultParser;
 
+    const BASE_API_URL = 'https://wgtj.gaotongpay.com/';
+
     /**
      * DigitalPayment constructor.
      *
@@ -17,6 +19,7 @@ class DigitalPayment extends Payment
      */
     public function __construct($merchantId, $secretKey, $baseApiUrl = null)
     {
+        $this->baseApiUrl = $baseApiUrl === null ? self::BASE_API_URL : $baseApiUrl;
         parent::__construct($merchantId, $secretKey, $baseApiUrl);
     }
 
@@ -30,7 +33,7 @@ class DigitalPayment extends Payment
      * @param string $notifyUrl
      * @return array
      */
-    public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl, $returnUrl = null)
+    public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl)
     {
         $payload = $this->signPayload([
             'banktype'    => $channel,
@@ -42,7 +45,8 @@ class DigitalPayment extends Payment
         $imgSrc = $this->parseResponse($this->httpClient->get('PayBank.aspx', $payload));
         if (isset($imgSrc)) 
         {
-            return $this->baseApiUrl . $imgSrc;
+            $result['qrcodeImgUrl'] = $this->baseApiUrl . $imgSrc;
+            return $result;
         }
         return null;
     }

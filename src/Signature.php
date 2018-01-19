@@ -14,6 +14,7 @@ class Signature
     public static function generate(array $payload, $secretKey)
     {
         $baseString = self::buildBaseString($payload).$secretKey;
+        
         return self::md5Hash($baseString);
     }
 
