@@ -32,7 +32,7 @@ class Bank
     /**
      * 交通銀行
      */
-    const BCM = 'BCM';
+    const BOCO = 'BOCO';
 
     /**
      * 興業銀行
@@ -57,12 +57,12 @@ class Bank
     /**
      * 平安銀行
      */
-    const PAB = 'PAB';
+    const PINGANBANK = 'PINGANBANK';
 
     /**
      * 中信銀行
      */
-    const CITIC = 'CITIC';
+    const CTTIC = 'CTTIC';
 
     /**
      * 廣發銀行
@@ -73,4 +73,60 @@ class Bank
      * 中國郵政儲蓄銀行
      */
     const PSBC = 'PSBC';
+
+    /**
+     * 南京銀行
+     */
+    const NJCB = 'NJCB';
+
+    /**
+     * 渤海銀行
+     */
+    const CBHB = 'CBHB';
+
+    /**
+     * 東亞銀行
+     */
+    const HKBEA = 'HKBEA';
+
+    /**
+     * 寧波銀行
+     */
+    const NBCB = 'NBCB';
+
+    /**
+     * 上海銀行
+     */
+    const SHB = 'SHB';
+
+    /**
+     * 上海浦東發展銀行
+     */
+    const SPDB = 'SPDB';
+
+    /**
+     * 華夏銀行
+     */
+    const HXB = 'HXB';
+
+    /**
+     * 北京農村商業銀行
+     */
+    const BJRCB = 'BJRCB';
+
+    /**
+     * 上海農商銀行
+     */
+    const SRCB = 'SRCB';
+
+    /**
+     * 深圳發展銀行
+     */
+    const SDB = 'SDB';
+
+    /**
+     * 浙江稠州商業銀行
+     */
+    const CZB = 'CZB';
+
 }

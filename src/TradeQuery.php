@@ -7,7 +7,7 @@ use Jetfuel\Gaotongpay\Traits\ResultParser;
 class TradeQuery extends Payment
 {
     use ResultParser;
-    const BASE_API_URL = 'https://cx.gaotongpay.com/zfapi/order/singlequery';
+    const BASE_API_URL = 'https://cx.gaotongpay.com/';
 
     /**
      * DigitalPayment constructor.
@@ -34,7 +34,7 @@ class TradeQuery extends Payment
             'p3_orderno' => $tradeNo,
         ]);
 
-        $order = $this->parseQueryResponse($this->httpClient->post('', $payload));
+        $order = $this->parseQueryResponse($this->httpClient->post('zfapi/order/singlequery', $payload));
 
         if ($order === null || !isset($order['rspCode']) || $order['rspCode'] !== 1) {
             return null;

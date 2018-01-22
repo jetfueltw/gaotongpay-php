@@ -25,12 +25,12 @@ class Channel
     const TENPAY = 'TENPAY';
 
     /**
-     * 京東支付
+     * 京東掃碼
      */
     const JDPAY = 'JDPAY';
 
     /**
-     * 銀聯
+     * 銀聯掃碼
      */
     const UNIONPAY = 'UNIONPAY';
 }
