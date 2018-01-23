@@ -6,10 +6,10 @@ use Sunra\PhpSimple\HtmlDomParser;
 trait ResultParser
 {
     /**
-     * Parse JSON format response to array.
+     * Parse HTML format response to string.
      *
      * @param string $response
-     * @return array
+     * @return string|null
      */
     public function parseResponse($response)
     {
@@ -24,6 +24,12 @@ trait ResultParser
         return null;
     }
 
+    /**
+     * Parse JSON format response to array.
+     *
+     * @param string $response
+     * @return array
+     */
     public function parseQueryResponse($response)
     {
         return json_decode($response, true);

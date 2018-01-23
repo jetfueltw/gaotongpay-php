@@ -31,7 +31,7 @@ class DigitalPayment extends Payment
      * @param float $amount
      * @param string $clientIp
      * @param string $notifyUrl
-     * @return array
+     * @return array|null
      */
     public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl)
     {
