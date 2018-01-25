@@ -30,11 +30,10 @@ class UnitTest extends TestCase
         $tradeNo = $faker->uuid;
         $channel = Channel::WECHAT;
         $amount = 50;
-        $clientIp = $faker->ipv4;
         $notifyUrl = $faker->url;
 
         $payment = new DigitalPayment($this->merchantId, $this->secretKey);
-        $result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl);
+        $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 
         var_dump($result);
         $this->assertContains('getqrcode', $result['qrcodeImgUrl'], '', true);

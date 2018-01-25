@@ -33,7 +33,7 @@ class DigitalPayment extends Payment
      * @param string $notifyUrl
      * @return array|null
      */
-    public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl)
+    public function order($tradeNo, $channel, $amount, $notifyUrl)
     {
         $payload = $this->signPayload([
             'banktype'    => $channel,

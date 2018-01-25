@@ -23,13 +23,12 @@ $secretKey = 'XXXXXXXXXXXXXXX'; // md5 密鑰
 $tradeNo = '20180109023351XXXXX'; // 商家產生的唯一訂單號
 $channel = Channel::WECHAT; // 支付通道，支援微信支付、QQ錢包
 $amount = 1.00; // 消費金額 (元)
-$clientIp = 'XXX.XXX.XXX.XXX'; // 消費者端 IP 位址
 $notifyUrl = 'https://XXX.XXX.XXX'; // 交易完成後異步通知接口
 
 ```
 ```
 $payment = new DigitalPayment(merchantId, secretKey);
-$result = $payment->order($tradeNo, $channel, $amount, $clientIp, $notifyUrl);
+$result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 ```
 ```
 Result:
