@@ -29,7 +29,6 @@ class DigitalPayment extends Payment
      * @param string $tradeNo
      * @param int $channel
      * @param float $amount
-     * @param string $clientIp
      * @param string $notifyUrl
      * @return array|null
      */
