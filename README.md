@@ -33,7 +33,7 @@ $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 ```
 Result:
 [
-    'qrcodeImgUrl' =>'https://wgtj.gaotongpay.com/zfapi/order/getqrcode?orderid=18573XXXX&sign=XXX', // QR Code 圖片網址
+    'qrcodeUrl' =>'https://wgtj.gaotongpay.com/zfapi/order/getqrcode?orderid=18573XXXX&sign=XXX', // QR Code 圖片網址
 ];
 ```
 
