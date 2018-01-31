@@ -9,6 +9,7 @@ class DigitalPayment extends Payment
     use ResultParser;
 
     const BASE_API_URL = 'https://wgtj.gaotongpay.com/';
+    const QRCODE_IMG_PREFIX = 'IMG|';
 
     /**
      * DigitalPayment constructor.
@@ -44,7 +45,7 @@ class DigitalPayment extends Payment
         $imgSrc = $this->parseResponse($this->httpClient->get('PayBank.aspx', $payload));
         if (isset($imgSrc)) 
         {
-            $result['qrcodeImgUrl'] = $this->baseApiUrl . $imgSrc;
+            $result['qrcodeUrl'] = self::QRCODE_IMG_PREFIX . $this->baseApiUrl . $imgSrc;
             return $result;
         }
         return null;
