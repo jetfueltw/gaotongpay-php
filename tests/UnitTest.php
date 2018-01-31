@@ -36,7 +36,7 @@ class UnitTest extends TestCase
         $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 
         var_dump($result);
-        $this->assertContains('getqrcode', $result['qrcodeImgUrl'], '', true);
+        $this->assertContains('IMG|', $result['qrcodeUrl'], '', true);
         return $tradeNo;
     }
 
