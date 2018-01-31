@@ -14,7 +14,7 @@ composer require jetfueltw/gaotongpay-php
 
 ### 掃碼支付下單
 
-使用微信支付、QQ錢包掃碼支付，下單後返回 QR Code網址。
+使用微信支付、QQ錢包掃碼支付，下單後返回 QR Code Image網址，並在網址加上'IMG|'前綴字串。
 
 
 ```
@@ -33,7 +33,7 @@ $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 ```
 Result:
 [
-    'qrcodeUrl' =>'https://wgtj.gaotongpay.com/zfapi/order/getqrcode?orderid=18573XXXX&sign=XXX', // QR Code 圖片網址
+    'qrcodeUrl' =>'IMG|https://wgtj.gaotongpay.com/zfapi/order/getqrcode?orderid=18573XXXX&sign=XXX', // QR Code 圖片網址
 ];
 ```
 
