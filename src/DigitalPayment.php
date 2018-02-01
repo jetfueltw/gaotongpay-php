@@ -48,7 +48,7 @@ class DigitalPayment extends Payment
             $result['qrcodeUrl'] = self::QRCODE_IMG_PREFIX . $this->baseApiUrl . $imgSrc;
             return $result;
         }
-        $result['qrcodeUrl'] = 'AAAA';
-        return $result;
+        //$result['qrcodeUrl'] = 'AAAA';
+        return null;
     }
 }

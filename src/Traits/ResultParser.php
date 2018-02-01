@@ -21,7 +21,7 @@ trait ResultParser
             return ltrim($imgSrc->src,'/');
         }
 
-        return null;
+        return html;
     }
 
     /**
