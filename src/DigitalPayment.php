@@ -42,7 +42,7 @@ class DigitalPayment extends Payment
             'callbackurl' => $notifyUrl,
         ]);
 
-        $imgSrc = $this->parseResponse($this->httpClient->get('PayBank.aspx', $payload));
+        $imgSrc = $this->httpClient->get('PayBank.aspx', $payload);
         if (isset($imgSrc)) 
         {
             $result['qrcodeUrl'] = self::QRCODE_IMG_PREFIX . $this->baseApiUrl . $imgSrc;
