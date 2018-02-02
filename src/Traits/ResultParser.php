@@ -13,19 +13,16 @@ trait ResultParser
      */
     public function parseResponse($response)
     {
-		if (is_null($response))
-		{
-			return ('AAAAAA');
-		}
-        $html = HtmlDomParser::str_get_html($response);
-
-        $imgSrc = $html->find('img', 0);
-        if (isset($imgSrc)) 
+		$html = HtmlDomParser::str_get_html($response);
+        if ($html)
         {
-            return ltrim($imgSrc->src,'/');
+            $imgSrc = $html->find('img', 0);
+            if (isset($imgSrc)) 
+            {
+                return ltrim($imgSrc->src,'/');
+            }
         }
-		
-        return $response;
+        return null;
     }
 
     /**
