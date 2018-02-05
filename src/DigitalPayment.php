@@ -8,7 +8,7 @@ class DigitalPayment extends Payment
 {
     use ResultParser;
 
-    const BASE_API_URL = 'https://wgtj.gaotongpay.com/';
+    const BASE_API_URL      = 'https://wgtj.gaotongpay.com/';
     const QRCODE_IMG_PREFIX = 'IMG|';
 
     /**
@@ -21,6 +21,7 @@ class DigitalPayment extends Payment
     public function __construct($merchantId, $secretKey, $baseApiUrl = null)
     {
         $this->baseApiUrl = $baseApiUrl === null ? self::BASE_API_URL : $baseApiUrl;
+
         parent::__construct($merchantId, $secretKey, $baseApiUrl);
     }
 
@@ -43,11 +44,13 @@ class DigitalPayment extends Payment
         ]);
 
         $imgSrc = $this->parseResponse($this->httpClient->get('PayBank.aspx', $payload));
-        if (isset($imgSrc)) 
-        {
-            $result['qrcodeUrl'] = self::QRCODE_IMG_PREFIX . $this->baseApiUrl . $imgSrc;
+
+        if (isset($imgSrc)) {
+            $result['qrcodeUrl'] = self::QRCODE_IMG_PREFIX.$this->baseApiUrl.$imgSrc;
+
             return $result;
         }
+
         return ['qrcodeUrl' => 'error'];
     }
 }

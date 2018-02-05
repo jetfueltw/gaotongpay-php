@@ -28,7 +28,7 @@ class GuzzleHttpClient implements HttpClientInterface
     }
 
     /**
-     * POST request.
+     * GET request.
      *
      * @param string $uri
      * @param array $data
@@ -39,7 +39,7 @@ class GuzzleHttpClient implements HttpClientInterface
         $headers = [
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         ];
-       
+
         $response = $this->client->get($this->baseUrl.$uri, [
             'headers' => $headers,
             'query'   => $data,

@@ -14,7 +14,7 @@ class Signature
     public static function generate(array $payload, $secretKey)
     {
         $baseString = self::buildBaseString($payload).$secretKey;
-        
+
         return self::md5Hash($baseString);
     }
 
@@ -64,30 +64,23 @@ class Signature
 
     private static function buildBaseString(array $payload)
     {
-        $baseString = "partner={$payload['partner']}&banktype={$payload['banktype']}&paymoney={$payload['paymoney']}&ordernumber={$payload['ordernumber']}&callbackurl={$payload['callbackurl']}";
-        
-        return $baseString;
+        return "partner={$payload['partner']}&banktype={$payload['banktype']}&paymoney={$payload['paymoney']}&ordernumber={$payload['ordernumber']}&callbackurl={$payload['callbackurl']}";
     }
 
     private static function buildBaseQueryString(array $payload)
     {
-        
-        $baseString = "p1_mchtid={$payload['p1_mchtid']}&p2_signtype={$payload['p2_signtype']}&p3_orderno={$payload['p3_orderno']}&p4_version={$payload['p4_version']}";
-        
-        return $baseString;
+
+        return "p1_mchtid={$payload['p1_mchtid']}&p2_signtype={$payload['p2_signtype']}&p3_orderno={$payload['p3_orderno']}&p4_version={$payload['p4_version']}";
     }
 
     private static function buildBaseNotifyString(array $payload)
     {
-        
-        $baseString = "partner={$payload['partner']}&ordernumber={$payload['ordernumber']}&orderstatus={$payload['orderstatus']}&paymoney={$payload['paymoney']}";
-        
-        return $baseString;
+
+        return "partner={$payload['partner']}&ordernumber={$payload['ordernumber']}&orderstatus={$payload['orderstatus']}&paymoney={$payload['paymoney']}";
     }
 
     private static function md5Hash($data)
     {
-        
         return md5($data);
     }
 }

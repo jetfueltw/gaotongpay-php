@@ -7,6 +7,7 @@ use Jetfuel\Gaotongpay\Traits\ResultParser;
 class TradeQuery extends Payment
 {
     use ResultParser;
+
     const BASE_API_URL = 'https://cx.gaotongpay.com/';
 
     /**
@@ -19,6 +20,7 @@ class TradeQuery extends Payment
     public function __construct($merchantId, $secretKey, $baseApiUrl = null)
     {
         $this->baseApiUrl = $baseApiUrl === null ? self::BASE_API_URL : $baseApiUrl;
+
         parent::__construct($merchantId, $secretKey, $baseApiUrl);
     }
 
@@ -53,7 +55,7 @@ class TradeQuery extends Payment
     {
         $order = $this->find($tradeNo);
 
-        if ($order === null || !isset($order['data']) || $order['data']['r5_orderstate'] !== 1) {
+        if ($order === null || !isset($order['data']['r5_orderstate']) || $order['data']['r5_orderstate'] !== 1) {
             return false;
         }
 

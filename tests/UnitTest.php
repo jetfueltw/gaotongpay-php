@@ -3,8 +3,6 @@
 namespace Test;
 
 use Faker\Factory;
-use Jetfuel\Gaotongpay\BankPayment;
-use Jetfuel\Gaotongpay\Constants\Bank;
 use Jetfuel\Gaotongpay\Constants\Channel;
 use Jetfuel\Gaotongpay\DigitalPayment;
 use Jetfuel\Gaotongpay\TradeQuery;
@@ -36,7 +34,9 @@ class UnitTest extends TestCase
         $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 
         var_dump($result);
+
         $this->assertContains('IMG|', $result['qrcodeUrl'], '', true);
+
         return $tradeNo;
     }
 
@@ -49,7 +49,9 @@ class UnitTest extends TestCase
     {
         $tradeQuery = new TradeQuery($this->merchantId, $this->secretKey);
         $result = $tradeQuery->find($tradeNo);
+
         var_dump($result);
+
         $this->assertEquals('1', $result['rspCode']);
     }
 
@@ -93,13 +95,13 @@ class UnitTest extends TestCase
         $mock = $this->getMockForTrait(NotifyWebhook::class);
 
         $payload = [
-            'partner'         => '10080',
-            'ordernumber'     => '150211000000000018',
-            'orderstatus'     => '1',
-            'paymoney'        => '50',
-            'sysnumber'       => 'aa123456789',
-            'attach'          => 'abc',
-            'sign'            => 'a3fc7ee52cd803a35296647d6440f10f',
+            'partner'     => '10080',
+            'ordernumber' => '150211000000000018',
+            'orderstatus' => '1',
+            'paymoney'    => '50',
+            'sysnumber'   => 'aa123456789',
+            'attach'      => 'abc',
+            'sign'        => 'a3fc7ee52cd803a35296647d6440f10f',
         ];
 
         $this->assertTrue($mock->verifyNotifyPayload($payload, $this->secretKey));
@@ -110,23 +112,23 @@ class UnitTest extends TestCase
         $mock = $this->getMockForTrait(NotifyWebhook::class);
 
         $payload = [
-            'partner'         => '10080',
-            'ordernumber'     => '150211000000000018',
-            'orderstatus'     => '1',
-            'paymoney'        => '50',
-            'sysnumber'       => 'aa123456789',
-            'attach'          => 'abc',
-            'sign'            => 'a3fc7ee52cd803a35296647d6440f10f',
+            'partner'     => '10080',
+            'ordernumber' => '150211000000000018',
+            'orderstatus' => '1',
+            'paymoney'    => '50',
+            'sysnumber'   => 'aa123456789',
+            'attach'      => 'abc',
+            'sign'        => 'a3fc7ee52cd803a35296647d6440f10f',
         ];
 
         $this->assertEquals([
-            'partner'         => '10080',
-            'ordernumber'     => '150211000000000018',
-            'orderstatus'     => '1',
-            'paymoney'        => '50',
-            'sysnumber'       => 'aa123456789',
-            'attach'          => 'abc',
-            'sign'            => 'a3fc7ee52cd803a35296647d6440f10f',
+            'partner'     => '10080',
+            'ordernumber' => '150211000000000018',
+            'orderstatus' => '1',
+            'paymoney'    => '50',
+            'sysnumber'   => 'aa123456789',
+            'attach'      => 'abc',
+            'sign'        => 'a3fc7ee52cd803a35296647d6440f10f',
         ], $mock->parseNotifyPayload($payload, $this->secretKey));
     }
 

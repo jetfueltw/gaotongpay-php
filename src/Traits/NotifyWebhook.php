@@ -6,8 +6,6 @@ use Jetfuel\Gaotongpay\Signature;
 
 trait NotifyWebhook
 {
-    use ConvertMoney;
-
     /**
      * Verify notify request's signature.
      *

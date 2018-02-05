@@ -6,8 +6,6 @@ use Jetfuel\Gaotongpay\HttpClient\GuzzleHttpClient;
 
 class Payment
 {
-    
-
     /**
      * @var string
      */
