@@ -5,6 +5,7 @@ namespace Test;
 use Faker\Factory;
 use Jetfuel\Gaotongpay\Constants\Channel;
 use Jetfuel\Gaotongpay\DigitalPayment;
+use Jetfuel\Gaotongpay\UnionQuickPayment;
 use Jetfuel\Gaotongpay\TradeQuery;
 use Jetfuel\Gaotongpay\Traits\NotifyWebhook;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +27,7 @@ class UnitTest extends TestCase
     {
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
-        $channel = Channel::WECHAT;
+        $channel = Channel::UNIONPAY;
         $amount = 50;
         $notifyUrl = $faker->url;
 
@@ -88,6 +89,24 @@ class UnitTest extends TestCase
         $result = $tradeQuery->isPaid($tradeNo);
 
         $this->assertFalse($result);
+    }
+
+    public function testUnionQuickPaymentOrder()
+    {
+        $faker = Factory::create();
+        $tradeNo = $faker->uuid;
+        $channel = Channel::UNIONWAPPAY;
+        $amount = 30;
+        $notifyUrl = $faker->url;
+
+        $payment = new UnionQuickPayment($this->merchantId, $this->secretKey);
+        $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
+
+        var_dump($result);
+
+        $this->assertContains('submit', $result, '', true);
+
+        return $tradeNo;
     }
 
     public function testNotifyWebhookVerifyNotifyPayload()

@@ -33,4 +33,9 @@ class Channel
      * 銀聯掃碼
      */
     const UNIONPAY = 'UNIONPAY';
+
+     /**
+     * 銀聯快捷
+     */
+    const UNIONWAPPAY = 'UNIONWAPPAY';
 }

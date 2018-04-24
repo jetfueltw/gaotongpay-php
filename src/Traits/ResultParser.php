@@ -13,7 +13,7 @@ trait ResultParser
      * @return string|null
      */
     public function parseResponse($response)
-    {
+    {   
         $html = HtmlDomParser::str_get_html($response);
 
         if ($html) {
@@ -36,5 +36,16 @@ trait ResultParser
     public function parseQueryResponse($response)
     {
         return json_decode($response, true);
+    }
+
+    /**
+     * Return raw html
+     *
+     * @param string $response
+     * @return array
+     */
+    public function parseUnionQuickResponse($response)
+    {
+        return $response;
     }
 }
