@@ -4,7 +4,7 @@ namespace Jetfuel\Gaotongpay;
 
 use Jetfuel\Gaotongpay\Traits\ResultParser;
 
-class UnionQuickPayment extends Payment
+class QuickPayment extends Payment
 {
     use ResultParser;
 

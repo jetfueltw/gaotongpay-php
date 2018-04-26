@@ -5,7 +5,7 @@ namespace Test;
 use Faker\Factory;
 use Jetfuel\Gaotongpay\Constants\Channel;
 use Jetfuel\Gaotongpay\DigitalPayment;
-use Jetfuel\Gaotongpay\UnionQuickPayment;
+use Jetfuel\Gaotongpay\QuickPayment;
 use Jetfuel\Gaotongpay\TradeQuery;
 use Jetfuel\Gaotongpay\Traits\NotifyWebhook;
 use PHPUnit\Framework\TestCase;
@@ -91,7 +91,7 @@ class UnitTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testUnionQuickPaymentOrder()
+    public function testQuickPaymentOrder()
     {
         $faker = Factory::create();
         $tradeNo = $faker->uuid;
@@ -99,7 +99,7 @@ class UnitTest extends TestCase
         $amount = 30;
         $notifyUrl = $faker->url;
 
-        $payment = new UnionQuickPayment($this->merchantId, $this->secretKey);
+        $payment = new QuickPayment($this->merchantId, $this->secretKey);
         $result = $payment->order($tradeNo, $channel, $amount, $notifyUrl);
 
         var_dump($result);
